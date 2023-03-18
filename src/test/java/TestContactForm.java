@@ -12,6 +12,8 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import static org.testng.Assert.*;
+
 public class TestContactForm {
 
     WebDriver driver;
@@ -43,9 +45,9 @@ public class TestContactForm {
         driver.findElement(By.cssSelector("#et_pb_contact_email_0")).sendKeys("jfdfd@hgfddf.com");
         driver.findElement(By.cssSelector("#et_pb_contact_message_0")).sendKeys("Saljem neku poruku.");
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
-        String submitMessage = driver.findElement(By.xpath("//div/p[text()=\"Thanks for contacting us\"]")).getText();
+        String messageSubmited = driver.findElement(By.xpath("//div/p[text()=\"Thanks for contacting us\"]")).getText();
 
-        Assert.assertEquals(submitMessage, "Thanks for contacting us");
+        Assert.assertEquals(messageSubmited, "Thanks for contacting us");
     }
 
     @Test
@@ -56,9 +58,9 @@ public class TestContactForm {
         driver.findElement(By.cssSelector("#et_pb_contact_email_0")).sendKeys("jfdfdhgfddf.com");
         driver.findElement(By.cssSelector("#et_pb_contact_message_0")).sendKeys("Saljem neku poruku.");
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
-        String contactMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]/ul/li[contains(text(), \"Invalid email\")]")).getText();
+        String contactMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]")).getText();
 
-        Assert.assertEquals(contactMessage, "Invalid email");
+        assertEquals(contactMessage, "Invalid email");
     }
 
     @Test
@@ -71,7 +73,7 @@ public class TestContactForm {
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
         String contactMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]")).getText();
 
-        Assert.assertEquals(contactMessage, "Please, fill in the following fields:\n" + "Email Address");
+        assertEquals(contactMessage, "Please, fill in the following fields:\n" + "Email Address");
     }
 
     @Test
@@ -84,7 +86,7 @@ public class TestContactForm {
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
         String contactMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]")).getText();
 
-        Assert.assertEquals(contactMessage, "Please, fill in the following fields:\n" + "First Name");
+        assertEquals(contactMessage, "Please, fill in the following fields:\n" + "First Name");
     }
 
     @Test
@@ -97,7 +99,7 @@ public class TestContactForm {
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
         String contactMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]")).getText();
 
-        Assert.assertEquals(contactMessage, "Please, fill in the following fields:\n" + "Last Name");
+        assertEquals(contactMessage, "Please, fill in the following fields:\n" + "Last Name");
     }
 
     @Test
@@ -110,7 +112,7 @@ public class TestContactForm {
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
         String contactMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]")).getText();
 
-        Assert.assertEquals(contactMessage, "Please, fill in the following fields:\n" + "First Name\n" + "Last Name");
+        assertEquals(contactMessage, "Please, fill in the following fields:\n" + "First Name\n" + "Last Name");
     }
 
     @Test
@@ -123,9 +125,21 @@ public class TestContactForm {
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
         String contactMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]")).getText();
 
-        Assert.assertEquals(contactMessage, "Please, fill in the following fields:\n" + "First Name\n" + "Last Name\n" + "Please, fix the following errors:\n" + "Invalid email");
+        assertEquals(contactMessage, "Please, fill in the following fields:\n" + "First Name\n" + "Last Name\n" + "Please, fix the following errors:\n" + "Invalid email");
     }
 
+    @Test
+    public void emptyMessageField(){
+        driver.findElement(By.xpath("//li[@id=\"menu-item-216842\"]/a[text()=\"Contact Us\"]")).click();
+        driver.findElement(By.cssSelector("#et_pb_contact_first_0")).sendKeys("Pera");
+        driver.findElement(By.cssSelector("#et_pb_contact_last_0")).sendKeys("Peric");
+        driver.findElement(By.cssSelector("#et_pb_contact_email_0")).sendKeys("jfdfd@hgfddf.com");
+        driver.findElement(By.cssSelector("#et_pb_contact_message_0")).sendKeys("");
+        wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
+        String submitMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]")).getText();
+
+        assertEquals(submitMessage, "Please, fill in the following fields:\n" + "Message");
+    }
 
 
     @Test
@@ -138,7 +152,7 @@ public class TestContactForm {
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
         String contactMessage = driver.findElement(By.xpath("//div[@class=\"et-pb-contact-message\"]")).getText();
 
-        Assert.assertEquals(contactMessage, "Please, fill in the following fields:\n" + "First Name\n" + "Last Name\n" + "Email Address\n" + "Message");
+        assertEquals(contactMessage, "Please, fill in the following fields:\n" + "First Name\n" + "Last Name\n" + "Email Address\n" + "Message");
     }
 
 
