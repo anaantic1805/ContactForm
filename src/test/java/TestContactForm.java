@@ -44,7 +44,7 @@ public class TestContactForm {
         wdWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[name=\"et_builder_submit_button\"]"))).click();
         String submitMessage = driver.findElement(By.xpath("//div/p[text()=\"Thanks for contacting us\"]")).getText();
 
-        Assert.assertEquals(submitMessage, "Invalid email");
+        Assert.assertEquals(submitMessage, "Thanks for contacting us");
 
     }
 
